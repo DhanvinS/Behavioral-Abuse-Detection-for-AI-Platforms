@@ -1,0 +1,50 @@
+$ D:\python.exe -u -m models.train_xgb --data data/run2
+started 2026-06-11 23:33:15.240509+00:00
+
+D:\Lib\site-packages\xgboost\core.py:751: UserWarning: [19:33:22] WARNING: C:\actions-runner\_work\xgboost\xgboost\src\common\error_msg.cc:62: Falling back to prediction using DMatrix due to mismatched devices. This might lead to higher memory usage and slower performance. XGBoost is running on: cuda:0, while the input data is on: cpu.
+Potential solutions:
+- Use a data structure that matches the device ordinal in the booster.
+- Set the device for booster before call to inplace_predict.
+
+This warning will only be shown once.
+
+  return func(**kwargs)
+
+=== XGBoost baseline (test n=6,000) ===
+class            support   PR-AUC
+account_farmer       120    1.000
+normal              5520    1.000
+prompt_sprayer       120    0.949
+spam_bot             180    0.991
+token_thief           60    1.000
+
+abuse-vs-normal PR-AUC: 0.990 (base rate 0.080)
+precision@100: 1.000 (max achievable 1.000)
+precision@500: 0.940 (max achievable 0.960)
+precision@1000: 0.477 (max achievable 0.480)
+
+abuse PR-AUC by attacker evasion level:
+  e in [0.00,0.33): PR-AUC 0.999  (n=138)
+  e in [0.33,0.66): PR-AUC 0.989  (n=149)
+  e in [0.66,1.01): PR-AUC 0.974  (n=193)
+
+top features (gain):
+  dc_frac                 0.139
+  frac_fast               0.106
+  active_days             0.078
+  events_per_active_day   0.073
+  n_devices               0.068
+  delta_median            0.067
+  n_asns                  0.056
+  max_events_1h           0.049
+  n_events                0.041
+  chat_frac               0.038
+  success_rate            0.034
+  night_frac              0.032
+  n_countries             0.030
+  mean_prompt_len         0.028
+  timing_entropy          0.026
+
+Saved model + metrics to data/run2\baseline
+
+exit code 0, 7.7s

@@ -1,0 +1,35 @@
+$ D:\python.exe -u -m models.mine_rings --data data/run2
+started 2026-06-11 23:34:10.498491+00:00
+
+D:\codes\Behavioral Abuse Detection for AI platforms\Behavioral Absue Detection Code\models\mine_rings.py:75: DeprecationWarning: `is_in` with a collection of the same datatype is ambiguous and deprecated.
+Please use `implode` to return to previous behavior.
+
+See https://github.com/pola-rs/polars/issues/22149 for more information.
+  l_ip = link_on(ui.filter(pl.col("ip").is_in(low_fanout)), "ip")
+links: device 520, payment 332, ip 1,781 (119 NAT-like IPs excluded by fanout cap 10)
+
+=== ring mining (components >= 5 users) ===
+flagged users: 950
+precision vs coordinated abuse (farmer+bot): 0.792
+recall of coordinated abuse: 0.752
+  account_farmer   flagged   394 /   400
+  normal           flagged   194 / 18400
+  prompt_sprayer   flagged     3 /   400
+  spam_bot         flagged   358 /   600
+  token_thief      flagged     1 /   200
+
+largest components (size, % abusive, dominant label):
+     58  100.0%  account_farmer
+     50  100.0%  account_farmer
+     44   86.4%  spam_bot
+     40  100.0%  account_farmer
+     36  100.0%  account_farmer
+     33  100.0%  account_farmer
+     31  100.0%  account_farmer
+     27  100.0%  account_farmer
+     25  100.0%  account_farmer
+     20  100.0%  account_farmer
+
+saved flags to data/run2\rings
+
+exit code 0, 1.7s

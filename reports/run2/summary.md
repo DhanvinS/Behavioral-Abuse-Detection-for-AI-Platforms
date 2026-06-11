@@ -1,57 +1,57 @@
 # Run report — `data/run2`
-_generated 2026-06-11 23:13 UTC_
+_generated 2026-06-11 23:34 UTC_
 
 ## Headline
 
 | detector | abuse PR-AUC |
 |---|---|
-| fused | 0.9987 |
-| xgb_abuse | 0.9752 |
-| seq_abuse | 0.9903 |
-| gnn_abuse | 0.9860 |
+| fused | 0.9886 |
+| xgb_abuse | 0.9876 |
+| seq_abuse | 0.9895 |
+| gnn_abuse | 0.9851 |
 
-Expected cost: **460.0** vs do-nothing 8,950.0 (**94.9% reduction**)
+Expected cost: **705.0** vs do-nothing 8,775.0 (**92.0% reduction**)
 
 ### Enforcement tiers
 
 | tier | n | abusive | precision |
 |---|---|---|---|
-| suspend | 210 | 210 | 1.000 |
-| challenge | 67 | 31 | 0.463 |
-| rate_limit | 133 | 0 | 0.000 |
-| monitor | 2590 | 0 | 0.000 |
+| suspend | 223 | 219 | 0.982 |
+| challenge | 43 | 15 | 0.349 |
+| rate_limit | 109 | 0 | 0.000 |
+| monitor | 2625 | 1 | 0.000 |
 
 ## XGBoost baseline
 
 | class | PR-AUC |
 |---|---|
-| account_farmer | 0.9950 |
-| normal | 0.9978 |
-| prompt_sprayer | 0.8789 |
-| spam_bot | 0.9961 |
+| account_farmer | 0.9999 |
+| normal | 0.9996 |
+| prompt_sprayer | 0.9486 |
+| spam_bot | 0.9908 |
 | token_thief | 1.0000 |
 
 ## Sequence model
 
 | class | PR-AUC |
 |---|---|
-| account_farmer | 0.9999 |
+| account_farmer | 0.9997 |
 | normal | 0.9998 |
 | prompt_sprayer | 1.0000 |
 | spam_bot | 0.9906 |
 | token_thief | 1.0000 |
 
-ATO anomaly AUC: **0.9108**, median localization 41.77h
+ATO anomaly AUC: **0.91**, median localization 41.77h
 
 ## GraphSAGE
 
 | class | PR-AUC |
 |---|---|
 | account_farmer | 1.0000 |
-| normal | 0.9977 |
-| prompt_sprayer | 0.8457 |
-| spam_bot | 0.9817 |
-| token_thief | 0.9992 |
+| normal | 0.9979 |
+| prompt_sprayer | 0.8524 |
+| spam_bot | 0.9819 |
+| token_thief | 0.9997 |
 
 ## Ring mining (unsupervised)
 
@@ -59,8 +59,8 @@ ATO anomaly AUC: **0.9108**, median localization 41.77h
 
 ## Spray detection (embeddings)
 
-- cluster ground-truth purity 98.54%, precision 0.724
-- recall: prompt_sprayer 99.50%, spam_bot 72.00%, normal 0.00%, prompt_sprayer_slow(e>0.6) 98.77%
+- cluster ground-truth purity 96.00%, precision 0.723
+- recall: prompt_sprayer 99.50%, spam_bot 72.67%, normal 0.00%, prompt_sprayer_slow(e>0.6) 98.77%
 
 ## Figures
 

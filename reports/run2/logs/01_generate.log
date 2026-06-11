@@ -1,0 +1,21 @@
+$ D:\python.exe -u -m sim.generate --users 20000 --days 28 --seed 42 --evasion 1.0 --out data/run2
+started 2026-06-11 23:31:32.486573+00:00
+
+  10000/20000 users, 2,612,824 events, 51s
+  20000/20000 users, 5,287,977 events, 94s
+
+Wrote 5,287,977 events for 20,000 users to data/run2 in 96s
+shape: (5, 4)
+┌────────────────┬─────────┬──────────────┬───────┐
+│ label          ┆ events  ┆ active_users ┆ users │
+│ ---            ┆ ---     ┆ ---          ┆ ---   │
+│ str            ┆ u32     ┆ u32          ┆ u32   │
+╞════════════════╪═════════╪══════════════╪═══════╡
+│ account_farmer ┆ 32577   ┆ 287          ┆ 400   │
+│ normal         ┆ 4364203 ┆ 18368        ┆ 18400 │
+│ prompt_sprayer ┆ 157546  ┆ 398          ┆ 400   │
+│ spam_bot       ┆ 564878  ┆ 598          ┆ 600   │
+│ token_thief    ┆ 168773  ┆ 200          ┆ 200   │
+└────────────────┴─────────┴──────────────┴───────┘
+
+exit code 0, 100.0s

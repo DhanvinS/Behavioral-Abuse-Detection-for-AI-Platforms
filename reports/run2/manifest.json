@@ -6,47 +6,59 @@
     "days": 28,
     "evasion": 1.0,
     "seed": 42,
-    "skip_sim": true
+    "skip_sim": false
   },
-  "started": "2026-06-11 23:12:03.310241+00:00",
+  "started": "2026-06-11 23:31:32.485949+00:00",
   "stages": [
+    {
+      "stage": "generate",
+      "exit_code": 0,
+      "seconds": 100.0,
+      "log": "reports\\run2\\logs\\01_generate.log"
+    },
+    {
+      "stage": "features",
+      "exit_code": 0,
+      "seconds": 2.7,
+      "log": "reports\\run2\\logs\\02_features.log"
+    },
     {
       "stage": "xgboost",
       "exit_code": 0,
-      "seconds": 7.6,
-      "log": "reports\\run2\\logs\\01_xgboost.log"
+      "seconds": 7.7,
+      "log": "reports\\run2\\logs\\03_xgboost.log"
     },
     {
       "stage": "sequence",
       "exit_code": 0,
-      "seconds": 41.1,
-      "log": "reports\\run2\\logs\\02_sequence.log"
+      "seconds": 30.6,
+      "log": "reports\\run2\\logs\\04_sequence.log"
     },
     {
       "stage": "gnn",
       "exit_code": 0,
-      "seconds": 23.6,
-      "log": "reports\\run2\\logs\\03_gnn.log"
+      "seconds": 17.0,
+      "log": "reports\\run2\\logs\\05_gnn.log"
     },
     {
       "stage": "rings",
       "exit_code": 0,
       "seconds": 1.7,
-      "log": "reports\\run2\\logs\\04_rings.log"
+      "log": "reports\\run2\\logs\\06_rings.log"
     },
     {
       "stage": "spray",
       "exit_code": 0,
-      "seconds": 17.5,
-      "log": "reports\\run2\\logs\\05_spray.log"
+      "seconds": 18.4,
+      "log": "reports\\run2\\logs\\07_spray.log"
     },
     {
       "stage": "fusion",
       "exit_code": 0,
       "seconds": 3.1,
-      "log": "reports\\run2\\logs\\06_fusion.log"
+      "log": "reports\\run2\\logs\\08_fusion.log"
     }
   ],
-  "finished": "2026-06-11 23:13:37.987233+00:00",
+  "finished": "2026-06-11 23:34:33.708056+00:00",
   "success": true
 }

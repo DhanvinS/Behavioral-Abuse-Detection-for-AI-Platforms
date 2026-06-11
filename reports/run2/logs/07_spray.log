@@ -1,0 +1,32 @@
+$ D:\python.exe -u -m models.spray_detect --data data/run2
+started 2026-06-11 23:34:12.179664+00:00
+
+embedding 920 unique prompts on cuda...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]
+Loading weights: 100%|##########| 103/103 [00:00<00:00, 3201.00it/s]
+
+flagged 25/96 embedding clusters as campaigns:
+  cluster  21:  21,229 events,  397 accts, tight 0.85, truth=jb_authority (50% pure)
+  cluster  37:  14,235 events,  214 accts, tight 0.94, truth=spam_crypto (100% pure)
+  cluster  59:  14,214 events,  213 accts, tight 0.87, truth=spam_crypto (100% pure)
+  cluster  46:  14,163 events,  215 accts, tight 0.92, truth=spam_crypto (100% pure)
+  cluster  64:  13,492 events,  379 accts, tight 0.78, truth=spam_seo (100% pure)
+  cluster  57:  12,867 events,  200 accts, tight 0.98, truth=ext_distill (100% pure)
+  cluster  72:  12,775 events,  200 accts, tight 0.85, truth=ext_bulk (100% pure)
+  cluster  31:  12,148 events,  369 accts, tight 0.82, truth=spam_seo (100% pure)
+  cluster  73:  10,626 events,  394 accts, tight 0.91, truth=jb_grandma (50% pure)
+  cluster   6:   9,068 events,  318 accts, tight 0.89, truth=spam_outreach (100% pure)
+  cluster  33:   5,401 events,  390 accts, tight 0.99, truth=jb_encoding (100% pure)
+  cluster  89:   5,396 events,  383 accts, tight 0.98, truth=jb_ignore (100% pure)
+
+=== spray/campaign detection ===
+flagged accounts: 1,154 (precision vs sprayer+spam: 0.723)
+  prompt_sprayer   flagged   398 /   400
+  spam_bot         flagged   436 /   600
+  normal           flagged     0 / 18400
+  slow sprayers (e>0.6): flagged 161 / 163  <- invisible to tabular baseline
+saved flags to data/run2\spray
+
+exit code 0, 18.4s

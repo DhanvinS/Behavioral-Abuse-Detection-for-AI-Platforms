@@ -2,7 +2,34 @@
   "permissions": {
     "allow": [
       "PowerShell(python --version)",
-      "PowerShell(pip --version)"
+      "PowerShell(pip --version)",
+      "Bash(python -c \"import json; d=json.load\\(open\\('data/seed_prompts.json'\\)\\); print\\(len\\(d['prompts']\\)\\)\")",
+      "Bash(cd \"/d/codes/Multi-Agent Red Team Arena Project/Multi_Agent_proj_code\" && grep -n \"sklearn\\\\|scikit\\\\|click\\\\|KeywordDefender\\\\|threshold\\\\|ATTACKER_REGISTRY\\\\|DEFENDER_REGISTRY\\\\|JudgeAgent\\\\|judge\" dashboard/app.py dashboard/charts.py scripts/seed_prompts_downloader.py | head -40)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(python -c \"import sys; print\\(sys.executable\\)\")",
+      "Bash(python -c \"import sentence_transformers, sklearn, xgboost; print\\('deps ok'\\)\")",
+      "Bash(python -)",
+      "Bash(python -m pytest tests/ -q)",
+      "Bash(python run_pipeline.py --module 4)",
+      "Bash(python src/module4_classify_v2.py)",
+      "Bash(python -m pytest tests/test_logger.py::test_log_round_round_trip -q)",
+      "Bash(python src/module5_evaluate.py --multi-holdout)",
+      "Bash(python scripts/run_arena.py --attackers template_random template_dan adaptive_template_random --defenders keyword_baseline --no-judge --rounds 15 --seed 42)",
+      "Bash(python scripts/run_experiments.py --no-judge --defenders keyword_baseline --rounds 8 --seed 7 --experiment adaptive)",
+      "Bash(python scripts/run_experiments.py --no-judge --defenders keyword_baseline --rounds 8 --seed 7 --experiment transferability)",
+      "Bash(cd \"/d/codes/Multi-Agent Red Team Arena Project/Multi_Agent_proj_code\" && grep -rn \"→\" --include=\"*.py\" experiments/ scripts/ arena/ agents/ dashboard/ | grep -v '\"\"\"' | grep \"console.print\\\\|print\\(\")",
+      "Bash(python scripts/run_experiments.py --no-judge --defenders keyword_baseline --rounds 3 --seed 7 --experiment category)",
+      "Bash(python -m compileall -q agents arena experiments scripts dashboard)",
+      "Bash(python scripts/run_arena.py --list-agents)",
+      "PowerShell($p = Start-Process -FilePath \"python\" -ArgumentList \"-m\",\"streamlit\",\"run\",\"dashboard/app.py\",\"--server.headless\",\"true\",\"--server.port\",\"8599\",\"--\",\"--data\",\"data/run2\" -PassThru -WindowStyle Hidden; Start-Sleep -Seconds 12; try { $r = Invoke-WebRequest -Uri \"http://localhost:8599\" -UseBasicParsing -TimeoutSec 10; \"HTTP $\\($r.StatusCode\\)\" } catch { \"FAILED: $_\" }; Stop-Process -Id $p.Id -Force -Confirm:$false)",
+      "Bash(python -c \"import kaleido; print\\('kaleido', kaleido.__version__\\)\")",
+      "Bash(python -c \"import plotly; print\\('plotly', plotly.__version__\\)\")",
+      "Bash(python -c \"import pandas; print\\('pandas ok'\\)\")",
+      "Bash(mkdir -p runs)",
+      "Bash(:)",
+      "Bash(python scripts/run_arena.py --attackers template_random adaptive_template_random --defenders keyword_baseline --no-judge --rounds 12 --seed 42)",
+      "Bash(python scripts/run_experiments.py --no-judge --defenders keyword_baseline --rounds 6 --seed 7 --experiment adaptive)",
+      "Bash(python scripts/run_arena.py --attackers template_random template_dan template_roleplay adaptive_template_random --defenders keyword_baseline --no-judge --rounds 60 --seed 42)"
     ]
   }
 }
