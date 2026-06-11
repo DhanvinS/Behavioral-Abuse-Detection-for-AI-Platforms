@@ -29,6 +29,8 @@ while the **fused system stays flat (≈0.996–0.998 at every evasion level)**.
 Timing and volume are cheap to fake; shared devices/payments, prompt
 semantics, and behavioral discontinuity are not.
 
+![Adversarial robustness: detector PR-AUC vs attacker evasion level](reports/run2/figs/evasion_robustness.png)
+
 The decision layer converts risk into tiered actions with explicit costs.
 On held-out accounts: suspend tier at 1.000 precision absorbing ~86% of
 abuse, 94.7% expected-cost reduction vs. no enforcement — and an honest
@@ -131,6 +133,8 @@ takeovers the attacker can't smooth over: they can fake marginals, not the
 victim's conditional behavior. Thief-vs-normal AUC 0.912 from the anomaly
 score alone, takeover localized to a median 42h window. Sees content via
 embedding-cluster IDs (the content-aware tier of the system).
+
+![Account takeover: detected NLL spike lands on the true takeover point](reports/run2/figs/ato_timeline.png)
 
 **GNN (hetero GraphSAGE).** User nodes carry exactly the baseline's
 features, so gains are attributable to message passing. Perfect on farmers
