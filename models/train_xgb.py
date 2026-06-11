@@ -19,7 +19,26 @@ from xgboost import XGBClassifier
 
 NON_FEATURES = {"user_id", "label", "label_noisy", "subtype", "ring_id",
                 "username", "created_at", "signup_country", "payment_hash",
-                "takeover_ts", "first_ts", "last_ts", "tz_offset"}
+                "takeover_ts", "first_ts", "last_ts", "tz_offset", "evasion"}
+
+
+def evasion_slices(df, idx_te, y_te, normal_idx, abuse_score, name):
+    """Abuse-vs-normal AP per attacker-evasion bucket (negatives = all normals)."""
+    if "evasion" not in df.columns:
+        return {}
+    ev = df["evasion"].to_numpy()[idx_te]
+    is_normal = y_te == normal_idx
+    out = {}
+    print(f"\n{name} by attacker evasion level:")
+    for lo, hi in ((0.0, 0.33), (0.33, 0.66), (0.66, 1.01)):
+        pos = (~is_normal) & (ev >= lo) & (ev < hi)
+        if pos.sum() < 5:
+            continue
+        mask = pos | is_normal
+        ap_ = average_precision_score(pos[mask].astype(int), abuse_score[mask])
+        out[f"{lo:.2f}-{hi:.2f}"] = round(float(ap_), 4)
+        print(f"  e in [{lo:.2f},{hi:.2f}): PR-AUC {ap_:.3f}  (n={int(pos.sum())})")
+    return out
 
 
 def precision_at_k(y_true_abuse: np.ndarray, score: np.ndarray, k: int) -> float:
@@ -90,6 +109,9 @@ def main():
             cap = min(1.0, n_abuse / k)
             print(f"precision@{k}: {p:.3f} (max achievable {cap:.3f})")
 
+    metrics["abuse_pr_auc_by_evasion"] = evasion_slices(
+        df, idx_te, y_te, cls_idx["normal"], abuse_score, "abuse PR-AUC")
+
     order = np.argsort(-clf.feature_importances_)[:15]
     print("\ntop features (gain):")
     metrics["top_features"] = []
@@ -100,6 +122,18 @@ def main():
     out_dir = os.path.join(args.data, "baseline")
     os.makedirs(out_dir, exist_ok=True)
     clf.save_model(os.path.join(out_dir, "xgb.ubj"))
+
+    # per-user scores for the fusion layer (all users; split saved alongside)
+    proba_all = clf.predict_proba(X)
+    is_test = np.zeros(len(y_clean), dtype=bool)
+    is_test[idx_te] = True
+    pl.DataFrame({
+        "user_id": df["user_id"],
+        "xgb_abuse": (1.0 - proba_all[:, cls_idx["normal"]]).astype(np.float32),
+        **{f"xgb_{c}": proba_all[:, i].astype(np.float32)
+           for c, i in cls_idx.items() if c != "normal"},
+        "is_test": is_test,
+    }).write_parquet(os.path.join(out_dir, "scores.parquet"))
     with open(os.path.join(out_dir, "metrics.json"), "w") as f:
         json.dump(metrics, f, indent=2)
     print(f"\nSaved model + metrics to {out_dir}")

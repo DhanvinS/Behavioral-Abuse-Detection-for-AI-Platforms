@@ -1,0 +1,35 @@
+$ D:\python.exe -u -m models.fuse --data data/run2
+started 2026-06-11 23:13:34.868171+00:00
+
+=== fused risk (eval n=3,000) ===
+  fused        abuse PR-AUC 0.9987
+  xgb_abuse    abuse PR-AUC 0.9752
+  seq_abuse    abuse PR-AUC 0.9903
+  gnn_abuse    abuse PR-AUC 0.9860
+
+fused abuse PR-AUC by evasion level:
+  e in [0.00,0.33): 0.9949  (n=69)
+  e in [0.33,0.66): 0.9953  (n=67)
+  e in [0.66,1.01): 0.9974  (n=105)
+
+fusion weights (standardized):
+  gnn_abuse    +1.85
+  seq_abuse    +1.77
+  xgb_abuse    -0.64
+  spray_sig    +0.58
+  ring_flag    +0.28
+  seq_anomaly  +0.09
+  seq_missing  -0.04
+  comp_size    -0.01
+
+=== decision tiers (thresholds fit @ precision targets {'suspend': 0.99, 'challenge': 0.9, 'rate_limit': 0.6}) ===
+tier              n  abusive  precision
+suspend         210      210      1.000
+challenge        67       31      0.463
+rate_limit      133        0      0.000
+monitor        2590        0      0.000
+
+expected cost (eval half): 460 vs do-nothing 8,950  (94.9% reduction)
+saved decisions to data/run2\fusion
+
+exit code 0, 3.1s

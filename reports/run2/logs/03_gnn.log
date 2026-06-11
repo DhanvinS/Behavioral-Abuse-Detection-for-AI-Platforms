@@ -1,0 +1,31 @@
+$ D:\python.exe -u -m models.train_gnn --data data/run2
+started 2026-06-11 23:12:52.054848+00:00
+
+graph: 20,000 users, 188,770 ips, 29,487 devices, 11,273 payments, 237,792 edges
+training 300 epochs full-batch (cuda)...
+D:\codes\Behavioral Abuse Detection for AI platforms\Behavioral Absue Detection Code\models\train_gnn.py:155: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:839.)
+  print(f"  epoch {epoch + 1}: loss {float(loss):.4f}")
+  epoch 50: loss 0.0879
+  epoch 100: loss 0.0360
+  epoch 150: loss 0.0137
+  epoch 200: loss 0.0080
+  epoch 250: loss 0.0044
+  epoch 300: loss 0.0031
+
+=== hetero GraphSAGE (test n=6,000) ===
+class            support   PR-AUC  XGB PR-AUC
+account_farmer       120    1.000       0.995
+normal              5520    0.998       0.998
+prompt_sprayer       120    0.846       0.879
+spam_bot             180    0.982       0.996
+token_thief           60    0.999       1.000
+abuse-vs-normal PR-AUC: 0.966
+
+abuse PR-AUC by attacker evasion level:
+  e in [0.00,0.33): PR-AUC 0.986  (n=124)
+  e in [0.33,0.66): PR-AUC 0.963  (n=152)
+  e in [0.66,1.01): PR-AUC 0.928  (n=204)
+saved scores + model to data/run2\gnn
+
+exit code 0, 23.6s

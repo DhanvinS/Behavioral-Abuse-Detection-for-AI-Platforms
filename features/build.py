@@ -56,7 +56,9 @@ def build_features(data_dir: str) -> pl.DataFrame:
         n_uas=pl.col("user_agent").n_unique(),
         dc_frac=(pl.col("asn_type") == "datacenter").mean(),
         night_frac=(pl.col("hour") < 6).mean(),
-        n_prompt_clusters=pl.col("prompt_cluster").n_unique(),
+        # NOTE: no features over prompt_cluster — those are ground-truth
+        # intent labels for evaluation only; using them would leak the label.
+        # Content signals enter via the embedding pipeline (models/spray_detect).
         dup_prompt_frac=1 - pl.col("prompt_text").n_unique() / pl.len(),
         mean_prompt_len=pl.col("prompt_len").mean(),
         tokens_mean=pl.col("tokens_used").mean(),
@@ -79,14 +81,12 @@ def build_features(data_dir: str) -> pl.DataFrame:
     feats = (base
              .join(_entropy_of(ev, "hour", "hour_entropy"), on="user_id", how="left")
              .join(_entropy_of(ev, "delta_bucket", "timing_entropy"), on="user_id", how="left")
-             .join(_entropy_of(ev, "prompt_cluster", "cluster_entropy"), on="user_id", how="left")
              .join(hourly_peak, on="user_id", how="left")
              .with_columns(
                  events_per_active_day=pl.col("n_events") / pl.col("active_days"),
                  delta_cv=pl.col("delta_std") / pl.col("delta_mean"),
                  burstiness=((pl.col("delta_std") - pl.col("delta_mean"))
                              / (pl.col("delta_std") + pl.col("delta_mean"))),
-                 cluster_diversity=pl.col("n_prompt_clusters") / pl.col("n_events"),
              ))
 
     users = pl.scan_parquet(os.path.join(data_dir, "users.parquet"))
@@ -117,7 +117,7 @@ def main():
     print(out.group_by("label").agg(
         pl.len(), pl.col("n_events").mean().round(1),
         pl.col("delta_cv").mean().round(2),
-        pl.col("cluster_entropy").mean().round(2),
+        pl.col("dup_prompt_frac").mean().round(3),
         pl.col("n_devices").mean().round(2)).sort("label"))
 
 

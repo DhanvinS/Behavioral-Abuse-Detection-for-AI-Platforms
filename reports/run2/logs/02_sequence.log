@@ -1,0 +1,31 @@
+$ D:\python.exe -u -m models.train_seq --data data/run2
+started 2026-06-11 23:12:10.960774+00:00
+
+building sequence tensors...
+training on 13,895 accounts (cuda)...
+D:\codes\Behavioral Abuse Detection for AI platforms\Behavioral Absue Detection Code\models\train_seq.py:202: UserWarning: Converting a tensor with requires_grad=True to a scalar may lead to unexpected behavior.
+Consider using tensor.detach() first. (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\torch\csrc\autograd\generated\python_variable_methods.cpp:839.)
+  tot_cls += float(loss_cls); tot_lm += float(loss_lm); nb += 1
+  epoch 1: cls 0.8062  lm 3.6596
+  epoch 2: cls 0.2218  lm 3.0040
+  epoch 3: cls 0.1788  lm 2.7849
+  epoch 4: cls 0.1709  lm 2.7060
+  epoch 5: cls 0.1443  lm 2.6635
+  epoch 6: cls 0.1279  lm 2.6418
+  epoch 7: cls 0.1151  lm 2.6268
+  epoch 8: cls 0.0965  lm 2.6146
+
+=== sequence model (test n=5,956) ===
+class            support   PR-AUC
+account_farmer        86    1.000
+normal              5511    1.000
+prompt_sprayer       119    1.000
+spam_bot             180    0.991
+token_thief           60    1.000
+abuse-vs-normal PR-AUC: 0.997
+
+ATO detection (LM NLL spike), thief-vs-normal AUC: 0.911
+takeover localization: median error 41.8h (n=60)
+saved scores + model to data/run2\seq
+
+exit code 0, 41.1s

@@ -35,6 +35,9 @@ def main():
     ap.add_argument("--days", type=int, default=28)
     ap.add_argument("--seed", type=int, default=42)
     ap.add_argument("--out", type=str, default="data/run")
+    ap.add_argument("--evasion", type=float, default=0.0,
+                    help="max attacker evasion level; each attacker entity "
+                         "samples e ~ U(0, evasion)")
     args = ap.parse_args()
 
     cfg = SimConfig(n_users=args.users, days=args.days, seed=args.seed,
@@ -49,11 +52,14 @@ def main():
     bot_idx = [i for i, l in enumerate(labels) if l == "spam_bot"]
     farmer_idx = [i for i, l in enumerate(labels) if l == "account_farmer"]
 
+    def sample_e():
+        return float(rng.uniform(0, args.evasion)) if args.evasion > 0 else 0.0
+
     bot_farm_of, farms = {}, []
     i = 0
     while i < len(bot_idx):
         size = min(int(rng.integers(15, 60)), len(bot_idx) - i)
-        farms.append(A.make_bot_farm(rng, world, cfg))
+        farms.append(A.make_bot_farm(rng, world, cfg, e=sample_e()))
         for j in range(i, i + size):
             bot_farm_of[bot_idx[j]] = (len(farms) - 1, j - i)
         i += size
@@ -62,7 +68,7 @@ def main():
     i = 0
     while i < len(farmer_idx):
         size = min(int(rng.integers(10, 60)), len(farmer_idx) - i)
-        rings.append(A.make_farmer_ring(rng, world, cfg, size))
+        rings.append(A.make_farmer_ring(rng, world, cfg, size, e=sample_e()))
         for j in range(i, i + size):
             ring_of[farmer_idx[j]] = (len(rings) - 1, j - i)
         i += size
@@ -91,9 +97,9 @@ def main():
             ri, idx = ring_of[i]
             user, ev = A.gen_farmer(rng, world, cfg, rings[ri], f"ring{ri:04d}", idx)
         elif label == "prompt_sprayer":
-            user, ev = A.gen_sprayer(rng, world, cfg)
+            user, ev = A.gen_sprayer(rng, world, cfg, e=sample_e())
         else:
-            user, ev = A.gen_thief(rng, world, cfg)
+            user, ev = A.gen_thief(rng, world, cfg, e=sample_e())
 
         user["user_id"] = uid
         user_rows.append(user)
@@ -111,7 +117,7 @@ def main():
 
     users = pl.DataFrame(user_rows, infer_schema_length=None).select(
         "user_id", "label", "subtype", "ring_id", "username", "created_at",
-        "signup_country", "payment_hash", "tz_offset", "takeover_ts")
+        "signup_country", "payment_hash", "tz_offset", "takeover_ts", "evasion")
 
     # noisy training labels: missed enforcement + bad abuse reports
     noise = rng.random(len(users))

@@ -6,11 +6,11 @@ pyarrow
 xgboost
 scikit-learn
 
-# phase 3+ (sequence model / embeddings / GNN)
-torch              # install CUDA build matching your driver
+# models (install torch CUDA build matching your driver)
+torch
+torch-geometric
 sentence-transformers
-# torch-geometric  # install when starting phase 4 (GNN)
-# faiss-cpu        # install when starting prompt-spray clustering
 
-# demo
-# streamlit
+# demo dashboard
+streamlit
+altair

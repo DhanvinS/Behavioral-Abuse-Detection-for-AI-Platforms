@@ -1,0 +1,152 @@
+{
+  "xgb": {
+    "classes": [
+      "account_farmer",
+      "normal",
+      "prompt_sprayer",
+      "spam_bot",
+      "token_thief"
+    ],
+    "n_test": 6000,
+    "per_class_pr_auc": {
+      "account_farmer": 0.995,
+      "normal": 0.9978,
+      "prompt_sprayer": 0.8789,
+      "spam_bot": 0.9961,
+      "token_thief": 1.0
+    },
+    "abuse_pr_auc": 0.9744,
+    "precision_at_k": {
+      "100": 1.0,
+      "500": 0.926,
+      "1000": 0.469
+    },
+    "abuse_pr_auc_by_evasion": {
+      "0.00-0.33": 0.9953,
+      "0.33-0.66": 0.9603,
+      "0.66-1.01": 0.9522
+    },
+    "top_features": [
+      "frac_fast",
+      "dc_frac",
+      "active_days",
+      "n_events",
+      "events_per_active_day",
+      "n_devices",
+      "n_asns",
+      "delta_median",
+      "chat_frac",
+      "success_rate",
+      "delta_p10",
+      "mean_prompt_len",
+      "n_countries",
+      "timing_entropy",
+      "n_uas"
+    ]
+  },
+  "seq": {
+    "classes": [
+      "account_farmer",
+      "normal",
+      "prompt_sprayer",
+      "spam_bot",
+      "token_thief"
+    ],
+    "per_class_pr_auc": {
+      "account_farmer": 0.9999,
+      "normal": 0.9998,
+      "prompt_sprayer": 1.0,
+      "spam_bot": 0.9906,
+      "token_thief": 1.0
+    },
+    "abuse_pr_auc": 0.997,
+    "ato_anomaly_auc": 0.9108,
+    "ato_localization_median_hours": 41.77
+  },
+  "gnn": {
+    "classes": [
+      "account_farmer",
+      "normal",
+      "prompt_sprayer",
+      "spam_bot",
+      "token_thief"
+    ],
+    "per_class_pr_auc": {
+      "account_farmer": 1.0,
+      "normal": 0.9977,
+      "prompt_sprayer": 0.8457,
+      "spam_bot": 0.9817,
+      "token_thief": 0.9992
+    },
+    "abuse_pr_auc": 0.9661,
+    "abuse_pr_auc_by_evasion": {
+      "0.00-0.33": 0.9858,
+      "0.33-0.66": 0.9634,
+      "0.66-1.01": 0.928
+    }
+  },
+  "rings": {
+    "precision": 0.7916,
+    "recall": 0.752,
+    "flagged": 950,
+    "ip_fanout_cap": 10,
+    "min_component": 5
+  },
+  "spray": {
+    "cluster_truth_purity": 0.9854,
+    "precision": 0.7243,
+    "recall": {
+      "prompt_sprayer": 0.995,
+      "spam_bot": 0.72,
+      "normal": 0.0,
+      "prompt_sprayer_slow(e>0.6)": 0.9877
+    }
+  },
+  "fusion": {
+    "abuse_pr_auc": {
+      "fused": 0.9987,
+      "xgb_abuse": 0.9752,
+      "seq_abuse": 0.9903,
+      "gnn_abuse": 0.986
+    },
+    "fused_by_evasion": {
+      "0.00-0.33": 0.9949,
+      "0.33-0.66": 0.9953,
+      "0.66-1.01": 0.9974
+    },
+    "fusion_weights": {
+      "xgb_abuse": -0.637,
+      "seq_abuse": 1.77,
+      "seq_anomaly": 0.091,
+      "gnn_abuse": 1.846,
+      "ring_flag": 0.276,
+      "spray_sig": 0.578,
+      "comp_size": -0.015,
+      "seq_missing": -0.045
+    },
+    "tiers": {
+      "suspend": {
+        "n": 210,
+        "abusive": 210,
+        "precision": 1.0
+      },
+      "challenge": {
+        "n": 67,
+        "abusive": 31,
+        "precision": 0.463
+      },
+      "rate_limit": {
+        "n": 133,
+        "abusive": 0,
+        "precision": 0.0
+      },
+      "monitor": {
+        "n": 2590,
+        "abusive": 0,
+        "precision": 0.0
+      }
+    },
+    "expected_cost": 460.0,
+    "cost_do_nothing": 8950.0
+  }
+}
